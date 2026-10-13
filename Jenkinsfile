@@ -13,11 +13,6 @@ pipeline {
             }
         }
 
-        stage('Build') {
-            steps {
-                bat 'echo Build aplikasi Flask'
-            }
-        }
 
         stage('Build Docker Image') {
             steps {
