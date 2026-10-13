@@ -1,4 +1,4 @@
-
+```groovy
 pipeline {
     agent any
 
@@ -30,13 +30,14 @@ pipeline {
             steps {
                 withCredentials([
                     usernamePassword(
-                        credentialsId: REGISTRY_CREDENTIALS,
+                        credentialsId: 'dockerhub-credentials',
                         usernameVariable: 'DOCKER_USER',
                         passwordVariable: 'DOCKER_PASS'
                     )
                 ]) {
                     bat '''
-                        echo %DOCKER_PASS% | docker login -u %DOCKER_USER% --password-stdin
+                        @echo off
+                        powershell -NoProfile -NonInteractive -Command "$env:DOCKER_PASS | docker login -u $env:DOCKER_USER --password-stdin"
                         if errorlevel 1 exit /b 1
 
                         docker push %IMAGE_NAME%:%BUILD_NUMBER%
@@ -61,3 +62,4 @@ pipeline {
         }
     }
 }
+```
